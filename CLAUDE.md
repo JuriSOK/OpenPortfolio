@@ -35,11 +35,23 @@ Ne pas ajouter de SaaS multi-utilisateur, base de données, authentification ou 
 
 ## 5. Architecture
 
-Aucune architecture applicative n'est encore actée (Phase 0 : gouvernance et configuration Claude Code uniquement). Les décisions de stack, style, i18n et format de contenu sont suivies dans `docs/decisions/README.md` et seront tranchées par ADR avant tout code applicatif. Une fois validée, l'arborescence cible sera documentée ici et dans `docs/architecture/README.md`.
+Socle technique en place (Next.js App Router, TypeScript strict, export statique, Tailwind CSS v4, i18n `/fr` `/en`, contenu YAML validé par Zod — ADR 0003 à 0006). Détail complet de l'arborescence et des flux dans `docs/architecture/README.md`.
+
+Points d'attention :
+
+- `content/example/` est une collection de démonstration fictive (pipeline YAML → Zod), pas du contenu réel — elle sera supprimée quand les schémas métier seront ajoutés.
+- Les 7 collections officielles (`content/profile/`, `content/projects/`, `content/experiences/`, `content/education/`, `content/certifications/`, `content/skills/`, `content/hobbies/`) sont encore vides : leurs schémas métier détaillés (`schemas/*.ts`) et le contenu réel font l'objet d'une PR dédiée.
+- Aucune page métier, composant de présentation designé (Header/Hero/ProjectCard...) ni skill `add-project` n'existe encore.
 
 ## 6. Commandes
 
-Aucune commande de build/lint/test n'existe encore (pas de `package.json`). Cette section sera complétée dès que le Lot 0 technique (stack, schémas) sera validé.
+- `npm run dev` — serveur de développement Next.js.
+- `npm run lint` — ESLint (flat config, `next/core-web-vitals` + `next/typescript`).
+- `npm run typecheck` — vérification TypeScript strict (`tsc --noEmit`).
+- `npm run validate-content` — validation Zod du contenu (`content/**/*.yml`), exécutée automatiquement avant `build` (`prebuild`).
+- `npm run test` — tests unitaires Vitest.
+- `npm run build` — export statique Next.js (`out/`), bloqué si le contenu est invalide.
+- `npm run format` / `npm run format:check` — Prettier.
 
 ## 7. Workflow
 

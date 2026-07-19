@@ -13,9 +13,9 @@
 | F03-001 Expériences | `content/experiences/` | Tri chronologique, période « en cours », exclusion `private` du build |
 | F03-002 Formation/certifications | `content/education/`, `content/certifications/` | Cohérence des dates, contrôle des liens de vérification |
 | F03-003 Compétences | `content/skills/` | Validation des relations, accès aux preuves associées |
-| F04-001 Schémas | `schemas/*.ts`, `scripts/validate-content.ts` | Champ manquant → échec, slug dupliqué détecté, relation invalide détectée |
+| F04-001 Schémas | `schemas/*.ts`, `scripts/validate-content.ts` | Champ manquant → échec, slug dupliqué détecté, relation invalide détectée — **socle en place** (pipeline générique + schéma de démonstration), schémas métier détaillés (Project, Experience, ...) en attente d'une PR dédiée |
 | F04-002 Statuts | `schemas/*.ts` | Brouillon non routable en production, prévisualisation `review` |
-| F04-003 Médias | `lib/media/` | Alt text obligatoire, détection média manquant |
+| F04-003 Médias | `lib/content/checkMediaReferences.ts` | Alt text obligatoire, détection média manquant — **détection de média manquant en place** (REC-06) ; obligation d'alt text par entité à couvrir avec les schémas métier réels |
 | F05-001 i18n FR/EN | `lib/i18n/`, routage locale (cf. ADR-0005) | E2E switch langue, balises de langue correctes |
 | F05-002 Complétude traduction | `scripts/validate-content.ts` | Build bloquant si traduction requise manquante |
 | F06-001 Thème | `lib/theme/` | E2E persistance thème après reload |
@@ -27,7 +27,7 @@
 | F07-004 Préparation PR | `.claude/rules/git.md`, `.github/pull_request_template.md` | PR compréhensible sans relire la conversation, aucune donnée sensible |
 | NFR-SEC-01/02/03 | `.claude/settings.json`, `.claude/rules/security.md`, CI (à venir) | Scan secrets, audit dépendances, tests entrées (REC-08 : lecture `.env` bloquée) |
 | NFR-A11Y-01 | composants partagés | Suite a11y automatisée + revue clavier manuelle |
-| NFR-REL-01 | CI (à créer, ADR-0008) | Pipeline bloquant sur contenu invalide |
+| NFR-REL-01 | `.github/workflows/ci.yml` | Pipeline bloquant sur contenu invalide — **socle en place** (lint/typecheck/validate-content/test/build sans étape de déploiement, qui reste conditionnée à l'ADR-0008) |
 | NFR-OPEN-01 | Choix de plateforme (ADR-0008) | Test d'installation propre sans service propriétaire obligatoire |
 
 ## Statut de cette matrice

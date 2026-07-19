@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+/* Stratégie de thème "class" imposée par l'ADR-0004 : Tailwind v4 applique
+   `dark:` uniquement via prefers-color-scheme par défaut ; cette directive
+   le fait dépendre de la classe `.dark` sur <html>, pilotée par le script
+   anti-flash (voir app/[locale]/layout.tsx). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Tokens de marque (couleurs, typographie) hors périmètre de cette PR :
+     aucune direction artistique n'est encore actée. À définir avec le
+     Product Owner avant les premières pages métier. */
+}

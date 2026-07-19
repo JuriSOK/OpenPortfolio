@@ -1,0 +1,9 @@
+slug: example-item
+status: draft
+title:
+  fr: Élément avec média manquant
+  en: Item with missing media
+media:
+  path: images/examples/does-not-exist.svg
+  type: image
+  decorative: true

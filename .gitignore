@@ -1,0 +1,38 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Environment & secrets (never commit)
+.env
+.env.*
+!.env.example
+secrets/
+private/
+config/credentials*
+
+# Node (anticipated for the future application stack — Phase 0 has no package.json yet)
+node_modules/
+.pnpm-store/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output (anticipated)
+.next/
+out/
+dist/
+build/
+coverage/
+
+# Claude Code local/personal config (never versioned)
+.claude/settings.local.json
+
+# Misc
+*.local
+*.docx

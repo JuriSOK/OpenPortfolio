@@ -8,6 +8,10 @@ Format et process définis par [0001-record-architecture-decisions.md](0001-reco
 |---|---|---|
 | [0001](0001-record-architecture-decisions.md) | Adoption du process ADR | Accepté |
 | [0002](0002-license-mit.md) | Licence open source — MIT | Accepté |
+| [0003](0003-stack-applicative.md) | Stack applicative cible — Next.js App Router, export statique, npm | Accepté |
+| [0004](0004-strategie-style.md) | Style — Tailwind CSS | Accepté |
+| [0005](0005-strategie-i18n.md) | Stratégie i18n — sous-chemin toujours préfixé, FR par défaut | Accepté |
+| [0006](0006-format-contenu-validation.md) | Format de contenu et validation — YAML + Markdown + Zod | Accepté |
 
 ## Décisions en attente
 
@@ -15,10 +19,6 @@ Identifiées lors du cadrage Phase 0 (voir aussi les incohérences/ambiguïtés 
 
 | ADR (prévisionnel) | Sujet | Urgence / lot cible |
 |---|---|---|
-| 0003 | Stack applicative cible (confirmation Next.js + TypeScript, gestionnaire de paquets) | Avant Lot 0 technique |
-| 0004 | Style : Tailwind CSS vs CSS Modules structurés | Avant Lot 0 technique |
-| 0005 | Stratégie i18n (routage FR/EN : sous-chemin / sous-domaine / cookie, langue par défaut) | Avant Lot 0 technique |
-| 0006 | Format de contenu et validation (MDX/YAML/JSON + Zod), disposition de `content/**` | Avant définition des schémas |
 | 0007 | Canal de contact MVP (mailto vs formulaire + service tiers) | Avant Lot 1 (F01-004) |
 | 0008 | Plateforme de déploiement / CI-CD, compatible NFR-OPEN-01 (pas de service propriétaire obligatoire) | Avant Lot 4, structure CI dès que possible |
 | 0009 | Budgets de performance chiffrés (JS initial, seuils Lighthouse) pour rendre NFR-PERF-01/02 testables | Avant Lot 2 |

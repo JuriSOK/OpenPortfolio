@@ -24,3 +24,7 @@ Tailwind est préféré aux CSS Modules structurés pour sa rapidité d'itérati
 - Toute valeur de design (couleur, espacement, typographie) doit passer par les tokens définis dans `tailwind.config.ts`, jamais en valeur arbitraire non justifiée.
 - Une convention courte de nommage des tokens et d'usage de `dark:` sera documentée dans `docs/architecture/README.md` une fois l'arborescence du dépôt actée.
 - La verbosité des classes utilitaires dans le JSX est mitigée par l'extraction de sous-composants plutôt que par du CSS-in-JS.
+
+## Addendum (bootstrap technique, PR 1)
+
+Tailwind **v4** a été retenu lors de l'implémentation du socle plutôt que v3. Or v4 bascule sur un modèle de configuration CSS-first : les tokens se déclarent dans un bloc `@theme { ... }` au sein de `app/globals.css`, et `tailwind.config.ts` n'est plus le mécanisme par défaut. La centralisation des tokens décrite ci-dessus reste donc valide dans son intention (un point unique de vérité pour les tokens de thème), mais son implémentation se fait via `app/globals.css` (`@theme`) plutôt que via `tailwind.config.ts`. `autoprefixer` n'est plus une dépendance séparée : Tailwind v4 l'embarque via `@tailwindcss/postcss`.

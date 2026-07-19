@@ -24,8 +24,18 @@
 - Tout contenu publié doit respecter le schéma applicable et exister dans les langues requises (français et anglais dès le MVP).
 - Les données confidentielles ou internes à un tiers sont interdites.
 
+## Démarrage local
+
+```
+git clone <url-du-dépôt>
+cd OpenPortfolio
+nvm use            # ou installer Node >= 20.9.0 (voir .nvmrc)
+npm ci
+npm run dev        # http://localhost:3000
+```
+
 ## Avant d'ouvrir une pull request
 
-- Exécuter les contrôles locaux disponibles (validation de contenu, lint, typecheck, tests, build) une fois ces scripts définis.
+- Exécuter les contrôles locaux : `npm run lint`, `npm run typecheck`, `npm run validate-content`, `npm run test`, `npm run build` (ce dernier revalide aussi le contenu via `prebuild`).
 - Vérifier qu'aucun secret n'est inclus dans le diff.
 - Renseigner le modèle de pull request (`.github/pull_request_template.md`).

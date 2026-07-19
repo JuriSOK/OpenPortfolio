@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+coverage
+package-lock.json
+
+# Préserve exactement les blocs littéraux Markdown `|` écrits par Claude
+# dans le contenu YAML (ADR-0006) : Prettier reformatte parfois maladroitement
+# les scalaires multi-lignes.
+content/**/*.yml

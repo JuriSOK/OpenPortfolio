@@ -1,6 +1,7 @@
 import { join } from 'node:path';
 import type { ZodTypeAny } from 'zod';
 import { mediaFileExists } from './checkMediaReferences';
+import { checkRelations, type RelationDeclaration, type ValidatedEntry } from './checkRelations';
 import { readCollection } from './readCollection';
 
 export interface ContentValidationError {
@@ -11,11 +12,15 @@ export interface ContentValidationError {
 
 export interface CollectionRegistryEntry {
   schema: ZodTypeAny;
+  // Profile est un singleton (§11.1 du dossier MOA) : au plus un fichier
+  // dans sa collection. Cette règle est indépendante de la présence d'un
+  // champ `slug` — Profile n'en a pas — contrairement à la détection de
+  // doublon de slug ci-dessous, qui ne s'applique qu'aux entités qui en ont un.
+  singleton?: boolean;
+  relations?: RelationDeclaration[];
 }
 
 // Une entrée par collection (nom de dossier sous content/ → schéma Zod).
-// Les collections officielles sans schéma métier (Profile, Project, ...)
-// ne sont pas encore enregistrées ici — voir schemas/example.ts.
 export type CollectionRegistry = Record<string, CollectionRegistryEntry>;
 
 export interface ValidateContentOptions {
@@ -29,25 +34,29 @@ export interface ValidateContentResult {
   entryCount: number;
 }
 
-// Cherche récursivement tout champ "media" (objet avec un champ "path")
-// dans une entité déjà validée, pour vérifier que le fichier référencé
-// existe bien sous public/.
+// Cherche récursivement tout objet "média" (structurellement reconnu par un
+// champ "path" string, cf. mediaSchema) dans une entité déjà validée, pour
+// vérifier que le fichier référencé existe bien sous public/. Marche par
+// structure plutôt que par nom de champ littéral ("media") : couvre aussi
+// bien un tableau (Project.media[], Hobby.media[]) qu'un objet unique sous
+// un autre nom (Profile.portrait, Profile.cv.fr/en, Project.seo.image).
 function extractMediaPaths(data: unknown): string[] {
-  const paths: string[] = [];
   if (!data || typeof data !== 'object') {
-    return paths;
+    return [];
   }
 
-  for (const [key, value] of Object.entries(data as Record<string, unknown>)) {
-    if (
-      key === 'media' &&
-      value &&
-      typeof value === 'object' &&
-      'path' in (value as Record<string, unknown>) &&
-      typeof (value as { path?: unknown }).path === 'string'
-    ) {
-      paths.push((value as { path: string }).path);
-    } else if (value && typeof value === 'object') {
+  if (
+    !Array.isArray(data) &&
+    'path' in (data as Record<string, unknown>) &&
+    typeof (data as { path?: unknown }).path === 'string'
+  ) {
+    return [(data as { path: string }).path];
+  }
+
+  const paths: string[] = [];
+  const values = Array.isArray(data) ? data : Object.values(data as Record<string, unknown>);
+  for (const value of values) {
+    if (value && typeof value === 'object') {
       paths.push(...extractMediaPaths(value));
     }
   }
@@ -62,11 +71,18 @@ export function validateContent({
 }: ValidateContentOptions): ValidateContentResult {
   const errors: ContentValidationError[] = [];
   let entryCount = 0;
+  const validatedEntriesByCollection = new Map<string, ValidatedEntry[]>();
+  const relationsByCollection = new Map<string, RelationDeclaration[]>();
 
-  for (const [collectionName, { schema }] of Object.entries(registry)) {
+  for (const [collectionName, { schema, singleton, relations }] of Object.entries(registry)) {
+    if (relations) {
+      relationsByCollection.set(collectionName, relations);
+    }
+
     const collectionDir = join(contentDir, collectionName);
     const entries = readCollection(collectionDir);
     const seenSlugs = new Map<string, string>();
+    const validatedEntries: ValidatedEntry[] = [];
 
     for (const entry of entries) {
       entryCount += 1;
@@ -83,7 +99,9 @@ export function validateContent({
         continue;
       }
 
-      const data = result.data as { slug?: string };
+      const data = result.data as Record<string, unknown> & { slug?: string };
+      validatedEntries.push({ filePath: entry.filePath, data });
+
       if (data.slug) {
         const existingFile = seenSlugs.get(data.slug);
         if (existingFile) {
@@ -107,7 +125,20 @@ export function validateContent({
         }
       }
     }
+
+    if (singleton && validatedEntries.length > 1) {
+      const extraEntry = validatedEntries[validatedEntries.length - 1];
+      errors.push({
+        file: extraEntry ? extraEntry.filePath : collectionDir,
+        field: `(${collectionName})`,
+        message: `la collection "${collectionName}" n'accepte qu'un seul fichier (singleton), ${validatedEntries.length} trouvés`,
+      });
+    }
+
+    validatedEntriesByCollection.set(collectionName, validatedEntries);
   }
+
+  errors.push(...checkRelations(validatedEntriesByCollection, relationsByCollection));
 
   return { errors, entryCount };
 }

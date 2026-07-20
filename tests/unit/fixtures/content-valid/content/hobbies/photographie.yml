@@ -1,0 +1,8 @@
+slug: photographie
+status: draft
+label:
+  fr: Photographie
+media:
+  - path: images/fixtures/hobby-cover.svg
+    type: image
+    decorative: true

@@ -1,0 +1,18 @@
+slug: broken
+status: draft
+type: personal
+title:
+  fr: Projet
+summary:
+  fr: Résumé
+problem:
+  fr: Problème
+solution:
+  fr: Solution
+role:
+  fr: Développeur
+technologies:
+  - TypeScript
+skills:
+  - does-not-exist
+startDate: '2024-01-01'

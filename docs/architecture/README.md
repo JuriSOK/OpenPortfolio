@@ -2,7 +2,7 @@
 
 ## Statut actuel
 
-Le socle applicatif de la PR 1 (fondation du dépôt) est en place : Next.js App Router, TypeScript strict, export statique, Tailwind CSS v4, routage i18n `/fr`/`/en`, pipeline de contenu YAML validé par Zod. La PR 2 ajoute les 7 schémas métier détaillés (`Profile`, `Project`, `Experience`, `Education`, `Certification`, `Skill`, `Hobby` — `Media` reste un objet embarqué, pas une 8e collection) et étend le pipeline de validation aux références croisées entre entités et à la complétude conditionnelle des traductions (ADR-0011). Aucune page métier ni composant de présentation designé (Header/Hero/ProjectCard...) n'existe encore, ni de skill `add-project` — ces éléments restent l'objet de PR dédiées, fondées sur les spécifications fonctionnelles complètes (dossier produit §11, §13.2).
+Le socle applicatif de la PR 1 (fondation du dépôt) est en place : Next.js App Router, TypeScript strict, export statique, Tailwind CSS v4, routage i18n `/fr`/`/en`, pipeline de contenu YAML validé par Zod. La PR 2 ajoute les 7 schémas métier détaillés (`Profile`, `Project`, `Experience`, `Education`, `Certification`, `Skill`, `Hobby` — `Media` reste un objet embarqué, pas une 8e collection) et étend le pipeline de validation aux références croisées entre entités et à la complétude conditionnelle des traductions (ADR-0011). La PR 3 ajoute la couche d'accès en lecture typée au contenu (`lib/content/getContent.ts` et ses modules purs associés) : filtrage par statut, exclusion des expériences `private`, tri déterministe, résolution des relations sortantes déclarées et contrôles d'intégrité de défense en profondeur (doublon de slug, cardinalité du singleton `Profile`, relation vers un slug inexistant), utile en `npm run dev` où le hook `prebuild` n'est pas déclenché. Aucune page métier ni composant de présentation designé (Header/Hero/ProjectCard...) n'existe encore, ni de skill `add-project` — ces éléments restent l'objet de PR dédiées, fondées sur les spécifications fonctionnelles complètes (dossier produit §11, §13.2).
 
 ## Où sont documentées les décisions d'architecture
 
@@ -33,7 +33,18 @@ content/
 schemas/                     # common.ts, media.ts + un schéma par entité métier (profile, project, experience,
                               # education, certification, skill, hobby) — Media reste un objet embarqué, pas
                               # une 8e collection
-lib/content/                 # lecture YAML, validation, vérification des références médias et croisées
+lib/content/
+├── readCollection.ts, validateContent.ts, checkRelations.ts, checkMediaReferences.ts
+│                             # pipeline de VALIDATION build-time (PR 2, inchangé)
+├── registry.ts               # registre unique des 7 collections (schéma, singleton, relations),
+│                              # importé par scripts/validate-content.ts et lib/content/getContent.ts
+├── errors.ts                 # ContentIntegrityError (contenu invalide), ContentConfigurationError (contentDir absent)
+├── locale.ts, filter.ts, sort.ts, relations.ts
+│                             # helpers purs : résolution de locale (fallback en->fr), visibilité par statut,
+│                              # tri déterministe, index par slug et résolution de relations
+├── repository.ts             # IO : charge et valide une collection, détecte doublons de slug et contentDir absent
+└── getContent.ts              # point d'entrée public en lecture (getProfile, getProjects, getProjectBySlug,
+                                # getExperiences, getEducation, getCertifications, getSkills, getHobbies)
 scripts/validate-content.ts  # CLI de validation, exécuté avant chaque build (npm run prebuild)
 public/
 └── documents/
@@ -59,6 +70,12 @@ Tailwind **v4** est utilisé (voir addendum dans [docs/decisions/0004-strategie-
 
 Le pipeline de démonstration (`content/example/`, `schemas/example.ts`, `public/images/examples/`) a été retiré lors de l'ajout des schémas métier réels (PR 2) : la preuve de bout en bout du pipeline est désormais portée uniquement par les fixtures de test (`tests/unit/fixtures/`), pas par du contenu versionné dans `content/`.
 
+## Flux de lecture applicative (PR 3)
+
+`content/<collection>/<slug>.yml` (déjà validé par `prebuild`) → `lib/content/getContent.ts` → futures pages (PR dédiées). Pour chaque appel : `repository.ts` charge et parse la collection (`readCollection` + `schema.safeParse`), `relations.ts` (`indexBySlug`) détecte un éventuel doublon de slug **avant** tout filtrage, `filter.ts` applique la visibilité (`published` toujours ; `review` seulement avec `includeReview` ; `draft` et `archived` (Project) toujours exclus ; `private` (Experience) toujours exclu), `sort.ts` applique un tri déterministe avec tie-break par slug, et `relations.ts` (`resolveSlugs`) hydrate les relations sortantes déclarées (uniquement `Project.skills` dans cette PR, via `getProjectBySlug`) — une relation vers un slug absent de toute entrée cible lève `ContentIntegrityError`, une relation vers une entité existante mais non visible est omise silencieusement. `getProfile` revérifie la cardinalité singleton à la lecture (utile en `npm run dev`, qui ne déclenche pas `prebuild`).
+
+Cette couche reste volontairement en lecture seule et sans hydratation générique des relations inverses (ex. Skill → Projects qui la référencent) : ce besoin sera traité par la PR qui introduira la première page le nécessitant réellement.
+
 ## Périmètre Prettier
 
 `npm run format` / `npm run format:check` ciblent explicitement les chemins du socle applicatif (`app/`, `components/`, `content/`, `lib/`, `schemas/`, `scripts/`, `tests/`, `.github/workflows/`, et les fichiers de config à la racine), pas tout le dépôt. La documentation historique (`docs/`, `README.md`, `.claude/`, `.github/ISSUE_TEMPLATE/`) n'a jamais été passée dans Prettier et n'est donc, pour l'instant, ni vérifiée ni exclue — juste hors périmètre de ces deux scripts. `next-env.d.ts` est également hors périmètre : généré par Next.js (jamais suivi par Git, voir `.gitignore`), le reformater serait sans effet durable.
@@ -72,7 +89,7 @@ Le pipeline de démonstration (`content/example/`, `schemas/example.ts`, `public
 ## À documenter dans une prochaine PR
 
 - Diagramme de flux complet (demande utilisateur → qualification Claude → modification sur branche → validation → revue humaine → PR → fusion → déploiement), une fois l'ADR-0008 tranché.
-- Composants UI réutilisables et pages publiques (consommation réelle des schémas métier : routage par statut, tri chronologique, exclusion effective des entrées `private` du build).
+- Composants UI réutilisables et pages publiques consommant `lib/content/getContent.ts` (routage par statut, affichage localisé via `resolveLocalizedString`/`resolveLocalizedStringList`, résolution des relations inverses type Skill → Projects/Experiences).
 - Harmonisation Prettier de la documentation historique (`docs/`, `README.md`, `.claude/`, `.github/ISSUE_TEMPLATE/`) dans un changement dédié, à valider par le Product Owner (`.claude/settings.json` étant un fichier sensible).
 
 Aucune section de ce document n'anticipe une décision non actée par ADR — en cas de doute, se référer à CLAUDE.md §4.8.

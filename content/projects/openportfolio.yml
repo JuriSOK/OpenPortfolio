@@ -1,0 +1,35 @@
+slug: openportfolio
+status: draft
+type: personal
+title:
+  fr: OpenPortfolio
+summary:
+  fr: >-
+    OpenPortfolio est un portfolio open source pilotable en langage naturel
+    avec Claude Code.
+problem:
+  fr: >-
+    Maintenir à jour un portfolio professionnel implique habituellement de
+    modifier manuellement du code ou des fichiers de contenu (YAML), ce qui
+    freine la mise à jour régulière des projets, expériences, formations,
+    compétences, certifications et hobbies.
+solution:
+  fr: >-
+    OpenPortfolio propose un portfolio open source administrable en langage
+    naturel via Claude Code : une personne peut gérer ses projets,
+    expériences, formations, compétences, certifications et hobbies sans
+    modifier manuellement le code ou les fichiers YAML.
+role:
+  fr: Conception et développement de l'ensemble du projet, seul.
+technologies:
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - Zod
+  - Claude Code
+skills:
+  - next-js
+  - typescript
+  - tailwind-css
+  - zod
+startDate: '2026-07-20'

@@ -1,0 +1,32 @@
+slug: proj-tie-b
+status: published
+type: personal
+title:
+  fr: Projet Égalité B
+  en: Tie Project B
+summary:
+  fr: Résumé
+  en: Summary
+problem:
+  fr: Problème
+  en: Problem
+solution:
+  fr: Solution
+  en: Solution
+role:
+  fr: Développeur
+  en: Developer
+technologies:
+  - TypeScript
+startDate: '2022-01-01'
+seo:
+  title:
+    fr: SEO FR
+    en: SEO EN
+  description:
+    fr: Description
+    en: Description
+  image:
+    path: images/placeholder.svg
+    type: image
+    decorative: true

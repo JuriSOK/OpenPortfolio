@@ -1,0 +1,15 @@
+slug: exp-private
+status: published
+organization:
+  fr: Entreprise Confidentielle
+  en: Confidential Company
+role:
+  fr: Rôle
+  en: Role
+startDate: '2022-01-01'
+missions:
+  fr:
+    - Mission confidentielle
+  en:
+    - Confidential mission
+private: true

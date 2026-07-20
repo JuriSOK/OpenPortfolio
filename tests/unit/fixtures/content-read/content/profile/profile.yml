@@ -1,0 +1,9 @@
+status: published
+summary:
+  fr: Résumé du profil
+  en: Profile summary
+positioning:
+  fr: Positionnement
+  en: Positioning
+skills:
+  - skill-published

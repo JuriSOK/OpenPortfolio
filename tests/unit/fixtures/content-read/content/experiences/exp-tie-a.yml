@@ -1,0 +1,14 @@
+slug: exp-tie-a
+status: published
+organization:
+  fr: Entreprise Égalité A
+  en: Tie Company A
+role:
+  fr: Rôle
+  en: Role
+startDate: '2023-06-01'
+missions:
+  fr:
+    - Mission A
+  en:
+    - Mission A

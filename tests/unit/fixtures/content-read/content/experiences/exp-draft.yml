@@ -1,0 +1,10 @@
+slug: exp-draft
+status: draft
+organization:
+  fr: Entreprise Brouillon
+role:
+  fr: Rôle
+startDate: '2021-01-01'
+missions:
+  fr:
+    - Mission brouillon

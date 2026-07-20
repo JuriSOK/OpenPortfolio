@@ -1,0 +1,14 @@
+slug: exp-recent
+status: published
+organization:
+  fr: Entreprise Récente
+  en: Recent Company
+role:
+  fr: Rôle
+  en: Role
+startDate: '2024-01-01'
+missions:
+  fr:
+    - Mission récente
+  en:
+    - Recent mission

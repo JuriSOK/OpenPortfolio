@@ -1,0 +1,36 @@
+slug: proj-featured-a
+status: published
+type: personal
+title:
+  fr: Projet Vitrine A
+  en: Showcase Project A
+summary:
+  fr: Résumé du projet A
+  en: Summary of project A
+problem:
+  fr: Problème traité par A
+  en: Problem addressed by A
+solution:
+  fr: Solution apportée par A
+  en: Solution provided by A
+role:
+  fr: Développeur
+  en: Developer
+technologies:
+  - TypeScript
+skills:
+  - skill-published
+  - skill-draft
+startDate: '2023-01-01'
+featuredRank: 1
+seo:
+  title:
+    fr: SEO A FR
+    en: SEO A EN
+  description:
+    fr: Description SEO A
+    en: SEO description A
+  image:
+    path: images/placeholder.svg
+    type: image
+    decorative: true

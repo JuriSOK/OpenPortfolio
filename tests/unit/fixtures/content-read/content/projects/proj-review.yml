@@ -1,0 +1,16 @@
+slug: proj-review
+status: review
+type: personal
+title:
+  fr: Projet En Relecture
+summary:
+  fr: Résumé en relecture
+problem:
+  fr: Problème
+solution:
+  fr: Solution
+role:
+  fr: Développeur
+technologies:
+  - TypeScript
+startDate: '2021-06-01'

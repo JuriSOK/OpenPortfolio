@@ -1,0 +1,14 @@
+slug: exp-old
+status: published
+organization:
+  fr: Ancienne Entreprise
+  en: Old Company
+role:
+  fr: Rôle
+  en: Role
+startDate: '2020-01-01'
+missions:
+  fr:
+    - Mission ancienne
+  en:
+    - Old mission

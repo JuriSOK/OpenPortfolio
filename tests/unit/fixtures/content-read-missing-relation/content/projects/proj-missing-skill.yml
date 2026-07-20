@@ -1,0 +1,34 @@
+slug: proj-missing-skill
+status: published
+type: personal
+title:
+  fr: Projet Relation Manquante
+  en: Missing Relation Project
+summary:
+  fr: Résumé
+  en: Summary
+problem:
+  fr: Problème
+  en: Problem
+solution:
+  fr: Solution
+  en: Solution
+role:
+  fr: Développeur
+  en: Developer
+technologies:
+  - TypeScript
+skills:
+  - ghost-skill
+startDate: '2024-01-01'
+seo:
+  title:
+    fr: SEO FR
+    en: SEO EN
+  description:
+    fr: Description
+    en: Description
+  image:
+    path: images/placeholder.svg
+    type: image
+    decorative: true

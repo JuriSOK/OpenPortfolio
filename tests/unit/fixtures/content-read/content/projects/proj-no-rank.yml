@@ -1,0 +1,32 @@
+slug: proj-no-rank
+status: published
+type: personal
+title:
+  fr: Projet Sans Rang
+  en: No Rank Project
+summary:
+  fr: Résumé du projet sans rang
+  en: Summary of the no-rank project
+problem:
+  fr: Problème traité
+  en: Problem addressed
+solution:
+  fr: Solution apportée
+  en: Solution provided
+role:
+  fr: Développeur
+  en: Developer
+technologies:
+  - TypeScript
+startDate: '2025-01-01'
+seo:
+  title:
+    fr: SEO sans rang FR
+    en: No rank SEO EN
+  description:
+    fr: Description SEO
+    en: SEO description
+  image:
+    path: images/placeholder.svg
+    type: image
+    decorative: true

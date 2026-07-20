@@ -1,0 +1,9 @@
+slug: edu-recent
+status: published
+institution:
+  fr: Université A
+  en: University A
+degree:
+  fr: Master
+  en: Master's degree
+startDate: '2023-01-01'

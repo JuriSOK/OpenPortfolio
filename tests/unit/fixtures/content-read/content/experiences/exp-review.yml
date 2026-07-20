@@ -1,0 +1,10 @@
+slug: exp-review
+status: review
+organization:
+  fr: Entreprise En Relecture
+role:
+  fr: Rôle
+startDate: '2023-01-01'
+missions:
+  fr:
+    - Mission en relecture

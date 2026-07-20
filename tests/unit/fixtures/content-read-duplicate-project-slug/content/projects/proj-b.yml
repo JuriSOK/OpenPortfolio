@@ -1,0 +1,16 @@
+slug: dup-project
+status: draft
+type: personal
+title:
+  fr: Projet Doublon (brouillon)
+summary:
+  fr: Résumé
+problem:
+  fr: Problème
+solution:
+  fr: Solution
+role:
+  fr: Développeur
+technologies:
+  - TypeScript
+startDate: '2021-01-01'

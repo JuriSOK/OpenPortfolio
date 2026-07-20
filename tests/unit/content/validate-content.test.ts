@@ -1,53 +1,12 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { certificationSchema } from '../../../schemas/certification';
-import { educationSchema } from '../../../schemas/education';
-import { experienceSchema } from '../../../schemas/experience';
-import { hobbySchema } from '../../../schemas/hobby';
-import { profileSchema } from '../../../schemas/profile';
-import { projectSchema } from '../../../schemas/project';
-import { skillSchema } from '../../../schemas/skill';
-import type { CollectionRegistry } from '../../../lib/content/validateContent';
+import { contentRegistry as registry } from '../../../lib/content/registry';
 import { validateContent } from '../../../lib/content/validateContent';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FIXTURES_DIR = join(__dirname, '../fixtures');
 const REPO_ROOT = join(__dirname, '../../..');
-
-// Registre réel des 7 collections officielles (miroir de
-// scripts/validate-content.ts), utilisé pour les tests d'intégration.
-const registry: CollectionRegistry = {
-  profile: {
-    schema: profileSchema,
-    singleton: true,
-    relations: [{ field: 'skills', targetCollection: 'skills' }],
-  },
-  projects: {
-    schema: projectSchema,
-    relations: [{ field: 'skills', targetCollection: 'skills' }],
-  },
-  experiences: {
-    schema: experienceSchema,
-    relations: [
-      { field: 'skills', targetCollection: 'skills' },
-      { field: 'projects', targetCollection: 'projects' },
-    ],
-  },
-  education: {
-    schema: educationSchema,
-    relations: [
-      { field: 'skills', targetCollection: 'skills' },
-      { field: 'projects', targetCollection: 'projects' },
-    ],
-  },
-  certifications: {
-    schema: certificationSchema,
-    relations: [{ field: 'skills', targetCollection: 'skills' }],
-  },
-  skills: { schema: skillSchema },
-  hobbies: { schema: hobbySchema },
-};
 
 function validateFixture(name: string) {
   const fixtureDir = join(FIXTURES_DIR, name);

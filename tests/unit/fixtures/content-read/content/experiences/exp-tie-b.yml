@@ -1,0 +1,14 @@
+slug: exp-tie-b
+status: published
+organization:
+  fr: Entreprise Égalité B
+  en: Tie Company B
+role:
+  fr: Rôle
+  en: Role
+startDate: '2023-06-01'
+missions:
+  fr:
+    - Mission B
+  en:
+    - Mission B

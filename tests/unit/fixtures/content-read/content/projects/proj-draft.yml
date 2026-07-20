@@ -1,0 +1,16 @@
+slug: proj-draft
+status: draft
+type: personal
+title:
+  fr: Projet Brouillon
+summary:
+  fr: Résumé du brouillon
+problem:
+  fr: Problème
+solution:
+  fr: Solution
+role:
+  fr: Développeur
+technologies:
+  - TypeScript
+startDate: '2021-01-01'

@@ -1,0 +1,16 @@
+slug: proj-archived
+status: archived
+type: personal
+title:
+  fr: Projet Archivé
+summary:
+  fr: Résumé archivé
+problem:
+  fr: Problème
+solution:
+  fr: Solution
+role:
+  fr: Développeur
+technologies:
+  - TypeScript
+startDate: '2020-01-01'

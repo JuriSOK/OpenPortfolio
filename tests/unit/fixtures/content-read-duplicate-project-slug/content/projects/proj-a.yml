@@ -1,0 +1,32 @@
+slug: dup-project
+status: published
+type: personal
+title:
+  fr: Projet Doublon (publié)
+  en: Duplicate Project (published)
+summary:
+  fr: Résumé
+  en: Summary
+problem:
+  fr: Problème
+  en: Problem
+solution:
+  fr: Solution
+  en: Solution
+role:
+  fr: Développeur
+  en: Developer
+technologies:
+  - TypeScript
+startDate: '2024-01-01'
+seo:
+  title:
+    fr: SEO FR
+    en: SEO EN
+  description:
+    fr: Description
+    en: Description
+  image:
+    path: images/placeholder.svg
+    type: image
+    decorative: true

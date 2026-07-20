@@ -1,0 +1,18 @@
+slug: existing-project
+status: draft
+type: personal
+title:
+  fr: Projet Existant
+summary:
+  fr: Résumé du projet existant
+problem:
+  fr: Problème traité
+solution:
+  fr: Solution apportée
+role:
+  fr: Développeur
+technologies:
+  - TypeScript
+skills:
+  - skill-review
+startDate: '2024-01-01'

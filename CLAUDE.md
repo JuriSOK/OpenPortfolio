@@ -41,7 +41,7 @@ Points d'attention :
 
 - `content/example/` est une collection de démonstration fictive (pipeline YAML → Zod), pas du contenu réel — elle sera supprimée quand les schémas métier seront ajoutés.
 - Les 7 collections officielles (`content/profile/`, `content/projects/`, `content/experiences/`, `content/education/`, `content/certifications/`, `content/skills/`, `content/hobbies/`) sont encore vides : leurs schémas métier détaillés (`schemas/*.ts`) et le contenu réel font l'objet d'une PR dédiée.
-- Aucune page métier, composant de présentation designé (Header/Hero/ProjectCard...) ni skill `add-project` n'existe encore.
+- Aucune page métier ni composant de présentation designé (Header/Hero/ProjectCard...) n'existe encore ; la skill `add-project` (`.claude/skills/add-project/`) est disponible.
 
 ## 6. Commandes
 

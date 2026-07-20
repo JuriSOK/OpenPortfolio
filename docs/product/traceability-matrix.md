@@ -21,7 +21,7 @@
 | F06-001 Thème | `lib/theme/` | E2E persistance thème après reload |
 | F06-002 SEO | `lib/seo/`, sitemap/robots | Audit build : sitemap sans brouillon, title unique par page |
 | F06-003 Accessibilité | composants partagés | Audit clavier automatisé + revue manuelle des parcours critiques |
-| F07-001 Skill add-project | `.claude/skills/add-project/` (à créer, Lot 3) | Exécution de bout en bout (REC-07) : fichiers créés, tests verts, rapport complet |
+| F07-001 Skill add-project | `.claude/skills/add-project/` — **implémentée, recette utilisateur à confirmer** | Recette fictive isolée exécutée (fichiers créés, tests verts) ; exécution de bout en bout par le Product Owner (REC-07) restant à confirmer |
 | F07-002 Modification contrôlée | `.claude/rules/content.md`, `.claude/rules/git.md` | Diff minimal, relations/index valides |
 | F07-003 Rapport de fin de tâche | `CLAUDE.md` §8 | Présence systématique du rapport, tests non exécutés signalés |
 | F07-004 Préparation PR | `.claude/rules/git.md`, `.github/pull_request_template.md` | PR compréhensible sans relire la conversation, aucune donnée sensible |

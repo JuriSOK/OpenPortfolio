@@ -1,9 +1,0 @@
-slug: example-item-one
-status: draft
-title:
-  fr: Élément de démonstration
-  en: Demo item
-media:
-  path: images/examples/example-cover.svg
-  type: image
-  decorative: true

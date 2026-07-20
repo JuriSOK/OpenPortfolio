@@ -8,16 +8,16 @@
 | F01-002 Navigation | `components/header/` | E2E navigation clavier, fermeture menu mobile après sélection |
 | F01-003 À propos | `app/(site)/about/`, `content/profile/` | Contrôle FR/EN, validation schéma |
 | F01-004 Contact | `components/contact/` | Validation entrées, contrôle liens (cf. ADR-0007 canal de contact) |
-| F02-001/002/003 Catalogue & fiches projet | `content/projects/`, `schemas/project.ts`, pages projet | Validation schéma (slug unique, relations), E2E fiche complète, contrôle liens |
+| F02-001/002/003 Catalogue & fiches projet | `content/projects/`, `schemas/project.ts`, pages projet | **Validation schéma couverte** (`schemas/project.ts` : type contrôlé, slug unique, relations `skills` validées, `seo` requis si `published`) ; pages/E2E fiche complète restent à faire (PR dédiée) |
 | F02-004 Recherche/filtres | `lib/filters/` | Tests unitaires tri/filtre, E2E clavier, résultat vide → reset |
-| F03-001 Expériences | `content/experiences/` | Tri chronologique, période « en cours », exclusion `private` du build |
-| F03-002 Formation/certifications | `content/education/`, `content/certifications/` | Cohérence des dates, contrôle des liens de vérification |
-| F03-003 Compétences | `content/skills/` | Validation des relations, accès aux preuves associées |
-| F04-001 Schémas | `schemas/*.ts`, `scripts/validate-content.ts` | Champ manquant → échec, slug dupliqué détecté, relation invalide détectée — **socle en place** (pipeline générique + schéma de démonstration), schémas métier détaillés (Project, Experience, ...) en attente d'une PR dédiée |
-| F04-002 Statuts | `schemas/*.ts` | Brouillon non routable en production, prévisualisation `review` |
-| F04-003 Médias | `lib/content/checkMediaReferences.ts` | Alt text obligatoire, détection média manquant — **détection de média manquant en place** (REC-06) ; obligation d'alt text par entité à couvrir avec les schémas métier réels |
+| F03-001 Expériences | `content/experiences/`, `schemas/experience.ts` | **Couvert** : dates cohérentes (`endDate >= startDate`), période « en cours » (`endDate` optionnel), flag `private` modélisé (exclusion effective du build hors scope, pas de page consommatrice) ; tri chronologique = règle d'affichage, reste à faire avec les pages |
+| F03-002 Formation/certifications | `content/education/`, `content/certifications/`, `schemas/education.ts`, `schemas/certification.ts` | **Couvert** : cohérence des dates (Education), lien de vérification validé en URL (Certification) ; tri par date décroissante = règle d'affichage, hors scope de cette PR |
+| F03-003 Compétences | `content/skills/`, `schemas/skill.ts` | **Couvert** : catégorie obligatoire, niveau tout-ou-rien (échelle+justification), relations validées côté Project/Experience/Education/Certification (stockage unidirectionnel, cf. `lib/content/checkRelations.ts`) |
+| F04-001 Schémas | `schemas/*.ts`, `scripts/validate-content.ts`, `lib/content/checkRelations.ts` | **Couvert** : les 7 schémas métier réels remplacent le pipeline de démonstration ; champ manquant → échec, slug dupliqué détecté, relation invalide détectée (message fichier + champ) |
+| F04-002 Statuts | `schemas/*.ts` | Statuts validés par schéma (`archived` spécifique à `Project`) ; routage draft/published non testable ici, faute de pages consommatrices |
+| F04-003 Médias | `schemas/media.ts`, `lib/content/checkMediaReferences.ts` | **Couvert** : alt obligatoire si non-decorative intégré directement dans `mediaSchema` (s'applique à `media[]`, `portrait`, `cv`, `seo.image`) ; détection de média manquant en place (REC-06) ; formats/tailles/nommage non chiffrés dans le dossier MOA → non modélisables (dette produit documentée) |
 | F05-001 i18n FR/EN | `lib/i18n/`, routage locale (cf. ADR-0005) | E2E switch langue, balises de langue correctes |
-| F05-002 Complétude traduction | `scripts/validate-content.ts` | Build bloquant si traduction requise manquante |
+| F05-002 Complétude traduction | `schemas/common.ts`, `schemas/*.ts` | **Couvert** : `en` optionnel en draft/review, requis en published pour tout champ localisé (y compris imbriqué/en tableau), cf. ADR-0011 |
 | F06-001 Thème | `lib/theme/` | E2E persistance thème après reload |
 | F06-002 SEO | `lib/seo/`, sitemap/robots | Audit build : sitemap sans brouillon, title unique par page |
 | F06-003 Accessibilité | composants partagés | Audit clavier automatisé + revue manuelle des parcours critiques |

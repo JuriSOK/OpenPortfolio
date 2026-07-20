@@ -1,0 +1,8 @@
+slug: photographie
+status: draft
+label:
+  fr: Photographie
+media:
+  - path: images/fixtures/does-not-exist.svg
+    type: image
+    decorative: true

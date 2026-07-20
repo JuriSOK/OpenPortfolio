@@ -1,0 +1,22 @@
+slug: demo-project
+status: draft
+type: personal
+title:
+  fr: Projet de démonstration
+summary:
+  fr: Résumé du projet
+problem:
+  fr: Problème traité
+solution:
+  fr: Solution apportée
+role:
+  fr: Développeur
+technologies:
+  - TypeScript
+skills:
+  - react
+startDate: '2024-01-01'
+media:
+  - path: images/fixtures/demo-cover.svg
+    type: image
+    decorative: true

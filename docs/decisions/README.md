@@ -12,6 +12,7 @@ Format et process définis par [0001-record-architecture-decisions.md](0001-reco
 | [0004](0004-strategie-style.md) | Style — Tailwind CSS | Accepté |
 | [0005](0005-strategie-i18n.md) | Stratégie i18n — sous-chemin toujours préfixé, FR par défaut | Accepté |
 | [0006](0006-format-contenu-validation.md) | Format de contenu et validation — YAML + Markdown + Zod | Accepté |
+| [0011](0011-politique-completude-traductions.md) | Politique de complétude des traductions (translationRequired) — précise l'ADR-0005 | Accepté |
 
 ## Décisions en attente
 

@@ -1,0 +1,11 @@
+slug: bad-dates
+status: draft
+organization:
+  fr: ACME
+role:
+  fr: Développeur
+startDate: '2022-06-01'
+endDate: '2022-01-01'
+missions:
+  fr:
+    - Mission

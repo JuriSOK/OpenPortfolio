@@ -1,0 +1,14 @@
+slug: exp-one
+status: draft
+organization:
+  fr: ACME
+role:
+  fr: Développeur
+startDate: '2022-01-01'
+missions:
+  fr:
+    - Développer des fonctionnalités
+skills:
+  - react
+projects:
+  - demo-project

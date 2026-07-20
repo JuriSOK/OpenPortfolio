@@ -1,0 +1,9 @@
+slug: master-info
+status: draft
+institution:
+  fr: Université de Paris
+degree:
+  fr: Master Informatique
+startDate: '2020-09-01'
+skills:
+  - react

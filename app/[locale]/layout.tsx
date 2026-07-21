@@ -3,9 +3,10 @@ import '../globals.css';
 
 // Racine indépendante de app/(root)/layout.tsx (technique des "multiple root
 // layouts" de Next.js) : c'est ici que `lang` est réellement dérivé du
-// segment [locale] courant (ADR-0005), et que vit le script anti-flash de
-// thème (ADR-0004) puisque c'est la partie de l'app destinée à du contenu
-// réel, contrairement à la redirection statique de "/".
+// segment [locale] courant (ADR-0005). L'initialisation du thème (anti-flash,
+// ADR-0004) vit désormais dans instrumentation-client.ts à la racine du
+// dépôt, chargé par Next.js avant l'hydratation — voir l'addendum
+// docs/decisions/0004-strategie-style.md pour le contexte du changement.
 const SUPPORTED_LOCALES = ['fr', 'en'] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
@@ -17,23 +18,6 @@ export const metadata: Metadata = {
   title: 'OpenPortfolio',
 };
 
-// Lit la préférence de thème stockée, retombe sur `prefers-color-scheme`,
-// et pose la classe `dark` sur <html> avant l'hydratation pour éviter tout
-// flash. Aucun composant de bascule (ThemeToggle) n'existe encore dans
-// cette PR : seule la mécanique est en place.
-const THEME_INIT_SCRIPT = `
-(function () {
-  try {
-    var stored = localStorage.getItem('theme');
-    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var theme = stored === 'light' || stored === 'dark' ? stored : (prefersDark ? 'dark' : 'light');
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    }
-  } catch (e) {}
-})();
-`;
-
 export default async function LocaleLayout({
   children,
   params,
@@ -44,10 +28,11 @@ export default async function LocaleLayout({
   const { locale } = await params;
 
   return (
-    <html lang={locale}>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-      </head>
+    // suppressHydrationWarning : instrumentation-client.ts peut poser la
+    // classe `dark` sur <html> avant l'hydratation, ce qui produirait sinon
+    // un avertissement d'hydratation légitime mais non pertinent ici (l'écart
+    // est intentionnel, pas un bug de rendu).
+    <html lang={locale} suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

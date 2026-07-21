@@ -28,3 +28,9 @@ Tailwind est préféré aux CSS Modules structurés pour sa rapidité d'itérati
 ## Addendum (bootstrap technique, PR 1)
 
 Tailwind **v4** a été retenu lors de l'implémentation du socle plutôt que v3. Or v4 bascule sur un modèle de configuration CSS-first : les tokens se déclarent dans un bloc `@theme { ... }` au sein de `app/globals.css`, et `tailwind.config.ts` n'est plus le mécanisme par défaut. La centralisation des tokens décrite ci-dessus reste donc valide dans son intention (un point unique de vérité pour les tokens de thème), mais son implémentation se fait via `app/globals.css` (`@theme`) plutôt que via `tailwind.config.ts`. `autoprefixer` n'est plus une dépendance séparée : Tailwind v4 l'embarque via `@tailwindcss/postcss`.
+
+## Addendum (initialisation du thème, hotfix hydratation)
+
+Le script inline anti-flash décrit ci-dessus, posé directement dans `app/[locale]/layout.tsx` (`<script dangerouslySetInnerHTML>`), provoquait une erreur de rendu côté client dans ce dépôt sous React 19 / Next.js 16.2.10. Le remplacement par `next/script` (`strategy="beforeInteractive"`) a été tenté et a reproduit la même erreur. L'initialisation du thème a donc été déplacée vers `instrumentation-client.ts` à la racine du dépôt — un fichier chargé par Next.js avant l'hydratation, sans passer par un composant React ni une balise `<script>` gérée par le framework. La logique de sélection du thème (lecture de `localStorage`, repli sur `prefers-color-scheme`) reste inchangée.
+
+Cette solution garantit une exécution avant l'hydratation, mais **pas nécessairement avant le premier paint** (contrairement à un script inline classique placé dans `<head>`, dont l'exécution est garantie synchrone avant tout rendu). La stratégie définitive d'initialisation du thème, notamment son articulation avec un futur composant `ThemeToggle`, devra être réévaluée lors de la PR de design partagé.

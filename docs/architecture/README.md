@@ -18,7 +18,7 @@ app/
 │   ├── layout.tsx          # <html lang="fr">, aucune UI localisée
 │   └── page.tsx             # "/" : redirection statique vers "/fr"
 ├── [locale]/               # racine indépendante pour le contenu localisé
-│   ├── layout.tsx           # <html lang={locale}>, generateStaticParams(['fr','en']), script anti-flash thème
+│   ├── layout.tsx           # <html lang={locale}>, generateStaticParams(['fr','en'])
 │   └── page.tsx              # placeholder technique (aucune page métier)
 └── globals.css              # Tailwind v4 (@import, @theme, @custom-variant dark)
 components/                  # composants UI réutilisables — vide (aucun composant réel dans cette PR)
@@ -62,7 +62,7 @@ Conséquence : la route `/` ne peut pas utiliser `redirect()` de `next/navigatio
 
 ## Thème clair/sombre (ADR-0004)
 
-Tailwind **v4** est utilisé (voir addendum dans [docs/decisions/0004-strategie-style.md](../decisions/0004-strategie-style.md)) : les tokens se déclarent dans `app/globals.css` via `@theme { ... }` (aucun token de marque défini dans cette PR — hors périmètre) plutôt que dans `tailwind.config.ts`. La stratégie `class` est activée par `@custom-variant dark (&:where(.dark, .dark *));`, combinée à un script inline (`app/[locale]/layout.tsx`) qui lit `localStorage`/`prefers-color-scheme` et pose la classe `dark` sur `<html>` avant hydratation, pour éviter tout flash. Aucun composant de bascule (`ThemeToggle`) n'existe encore : seule la mécanique est en place.
+Tailwind **v4** est utilisé (voir addendum dans [docs/decisions/0004-strategie-style.md](../decisions/0004-strategie-style.md)) : les tokens se déclarent dans `app/globals.css` via `@theme { ... }` (aucun token de marque défini dans cette PR — hors périmètre) plutôt que dans `tailwind.config.ts`. La stratégie `class` est activée par `@custom-variant dark (&:where(.dark, .dark *));`, combinée à `instrumentation-client.ts` (racine du dépôt) qui lit `localStorage`/`prefers-color-scheme` et pose la classe `dark` sur `<html>` avant hydratation, pour éviter tout flash. Ce mécanisme a remplacé un script inline précédemment posé dans `app/[locale]/layout.tsx` — voir l'addendum ADR-0004 pour le contexte de ce changement. Aucun composant de bascule (`ThemeToggle`) n'existe encore : seule la mécanique est en place.
 
 ## Flux de validation du contenu
 
